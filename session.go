@@ -85,3 +85,16 @@ func DeleteSession(ua HttpClient, endpoint string) error {
 	}
 	return responseError(resp)
 }
+
+func CheckSession(ua HttpClient, endpoint string) bool {
+	uri := URLJoin(endpoint, "rest/auth/1/session")
+	resp, err := ua.GetJSON(uri)
+	if err != nil {
+		return false
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != 200 {
+		return false
+	}
+	return true
+}
